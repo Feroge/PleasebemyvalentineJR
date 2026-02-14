@@ -3,62 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <title>Will You Be My Valentine?</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-    body {
-        background: linear-gradient(135deg, #ff758c, #ff7eb3);
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    height: 100vh;
+    color: white;
+}
 
-    h1 {
-        margin-top: 80px;
-        font-size: 32px;
-        color: white;
-        padding: 0 20px;
-    }
+h1 {
+    margin-top: 60px;
+    font-size: 28px;
+    padding: 0 20px;
+}
 
-    .buttons {
-        margin-top: 60px;
-        position: relative;
-        height: 400px;
-    }
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: absolute;
+    transition: transform 0.2s ease;
+}
 
-    button {
-        padding: 15px 30px;
-        font-size: 20px;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        position: absolute;
-        transition: all 0.2s ease;
-    }
+#yesBtn {
+    background-color: #ff1744;
+    top: 55%;
+    left: 30%;
+    transform: scale(1);
+}
 
-    #yesBtn {
-        background-color: #ff1744;
-        color: white;
-        left: 35%;
-        transform: scale(1);
-    }
+#noBtn {
+    background-color: #333;
+    top: 55%;
+    left: 60%;
+}
 
-    #noBtn {
-        background-color: #333;
-        color: white;
-        left: 55%;
-    }
+#message {
+    display: none;
+    opacity: 0;
+    transition: opacity 2s ease;
+    padding: 30px;
+    font-size: 20px;
+    line-height: 1.6;
+}
 
-    #result {
-        font-size: 28px;
-        color: white;
-        margin-top: 40px;
-        display: none;
-        padding: 0 20px;
+/* Floating hearts */
+.heart {
+    position: absolute;
+    bottom: -20px;
+    font-size: 24px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
     }
+    100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+    }
+}
 </style>
 </head>
 
@@ -66,35 +79,71 @@
 
 <h1>Will You Be My Valentine? 💖</h1>
 
-<div class="buttons">
-    <button id="yesBtn">Yes 😍</button>
-    <button id="noBtn">No 😏</button>
-</div>
+<button id="yesBtn">Yes 😍</button>
+<button id="noBtn">No 😏</button>
 
-<div id="result">I KNEW IT 😌💕 You’re stuck with me now 😘</div>
+<div id="message">
+<b>My dearest Jarul 💖💖💖</b><br><br>
+Happy Valentine’s Day, my love 💘🌹✨ Every single day with you is a precious gift 🎁💕 and I am constantly in awe of your strength, your resilience, and your beautiful heart 💞💪🌸.<br><br>
+We’ve faced so much together, and through it all, your unwavering spirit has shone the brightest 🌟💫💗. Thank you for being you, for loving me the way you do, and for making our journey the most extraordinary adventure of my life 🚀❤️‍🔥💑.<br><br>
+I love you more than words can ever express 🥺💓💋💋💋💋💋<br>
+Forever yours 😘😘😘😘😘💕💕💕💕💕
+</div>
 
 <script>
 let scale = 1;
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
-const result = document.getElementById("result");
+const message = document.getElementById("message");
 
 function moveNoButton() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 100);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
 
-    // Make YES bigger
-    scale += 0.2;
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    scale += 0.25;
     yesBtn.style.transform = "scale(" + scale + ")";
 }
 
-noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    moveNoButton();
+});
 noBtn.addEventListener("click", moveNoButton);
 
-// For phones (touch screens)
-noBtn.addEventListener("touchstart", moveNoButton);
+yesBtn.addEventListener("click", function() {
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
 
-yesBtn.addEventListener("click", () => {
-    document.query
+    message.style.display = "block";
+    setTimeout(() => {
+        message.style.opacity = "1";
+    }, 100);
+
+    createHearts();
+});
+
+function createHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
